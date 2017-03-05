@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
+        <script type='text/javascript'>
+            google.charts.load('upcoming', {'packages': ['geochart']});
+            google.charts.setOnLoadCallback(drawMarkersMap);
+
+            // add a line with your name and country
+            var africodeCountries = [
+            ];
+
+            function drawMarkersMap() {
+                var uniqueCountries = {}
+                for ( var index = 0; index < africodeCountries.length; index++ ) {
+                    var country = africodeCountries[index].country;
+                    if ( country in uniqueCountries ) {
+                        uniqueCountries[country] += 1;
+                    } else {
+                        uniqueCountries[country] = 1;
+                    }
+                }
+
+                var chartCountries = [ ['Country',   'Africode Presence'] ];
+                for ( var country in uniqueCountries ) {
+                    chartCountries.push([country, uniqueCountries[country] ]);
+                }
+
+                var data = google.visualization.arrayToDataTable(chartCountries);
+
+                var options = {
+                    region: '002',   // '002' (Africa); '021' (North America)
+                    displayMode: 'markers',
+                    sizeAxis: { minSize: 12 },  // increase marker size (bigger circles)
+                    datalessRegionColor: '#D4FFE9',
+                    backgroundColor: '#81d4fa',
+                    colorAxis: {colors: ['#FFADBC', 'FF002E']}
+                };
+
+                var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
+                chart.draw(data, options);
+            };
+        </script>
+    </head>
+    <body>
+        <div id="chart_div" style="width: 1350px; height: 750px;"></div>
+    </body>
+</html>
